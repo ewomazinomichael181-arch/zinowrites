@@ -1,0 +1,93 @@
+import { useState } from "react";
+import { ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useProjects, type Project } from "@/hooks/useProjects";
+
+const categories = ["All", "Blog", "Whitepaper", "Copy", "Strategy"];
+
+export default function PortfolioGrid() {
+  const { data: projects, isLoading } = useProjects();
+  const [filter, setFilter] = useState("All");
+
+  const filtered = filter === "All" ? projects : projects?.filter((p) => p.category === filter);
+
+  return (
+    <section id="portfolio" className="py-24">
+      <div className="container">
+        <p className="text-sm font-medium uppercase tracking-widest text-primary">Portfolio</p>
+        <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Selected Work</h2>
+
+        {/* Filters */}
+        <div className="mt-8 flex flex-wrap gap-2">
+          {categories.map((c) => (
+            <Button
+              key={c}
+              variant={filter === c ? "default" : "outline"}
+              size="sm"
+              onClick={() => setFilter(c)}
+            >
+              {c}
+            </Button>
+          ))}
+        </div>
+
+        {/* Grid */}
+        {isLoading ? (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-64 rounded-lg" />
+            ))}
+          </div>
+        ) : filtered && filtered.length > 0 ? (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-10 text-center text-muted-foreground">
+            No projects found. Check back soon!
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <article className="group flex flex-col overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-lg">
+      {project.image_url && (
+        <div className="aspect-video overflow-hidden bg-muted">
+          <img
+            src={project.image_url}
+            alt={project.title}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+      )}
+      <div className="flex flex-1 flex-col p-5">
+        <Badge variant="secondary" className="w-fit text-xs">
+          {project.category}
+        </Badge>
+        <h3 className="mt-3 text-lg font-semibold leading-snug">{project.title}</h3>
+        {project.impact && (
+          <p className="mt-2 text-sm text-muted-foreground">{project.impact}</p>
+        )}
+        {project.url && (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-auto flex items-center gap-1 pt-4 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            Read Project <ExternalLink className="h-3 w-3" />
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}
