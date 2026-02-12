@@ -13,7 +13,7 @@ export default function Hero() {
         <p className="mb-4 text-sm font-medium uppercase tracking-widest text-primary">
           Strategic Content Writer & Copywriter
         </p>
-        <h1 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-6xl lg:text-7xl">
+        <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-6xl lg:text-7xl">
           Content that turns readers into loyal customers.
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
