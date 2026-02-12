@@ -25,7 +25,7 @@ export default function Testimonials() {
         <p className="text-sm font-medium uppercase tracking-widest text-primary">Testimonials</p>
         <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">What Clients Say</h2>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
             <blockquote
               key={i}
