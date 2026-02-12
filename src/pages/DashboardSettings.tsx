@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const settingsSchema = z.object({
+  brand_name: z.string().trim().max(100, "Brand name must be under 100 characters"),
+  linkedin_url: z.string().url("Invalid LinkedIn URL").max(500, "URL too long").optional().or(z.literal("")),
+  contact_email: z.string().email("Invalid email address").max(255, "Email too long").optional().or(z.literal("")),
+});
 
 export default function DashboardSettings() {
   const { data: settings, isLoading } = useSettings();
@@ -32,17 +39,28 @@ export default function DashboardSettings() {
 
   const mutation = useMutation({
     mutationFn: async () => {
+      const validated = settingsSchema.parse({
+        brand_name: brandName,
+        linkedin_url: linkedinUrl || undefined,
+        contact_email: contactEmail || undefined,
+      });
       await Promise.all([
-        updateSetting("brand_name", brandName),
-        updateSetting("linkedin_url", linkedinUrl),
-        updateSetting("contact_email", contactEmail),
+        updateSetting("brand_name", validated.brand_name),
+        updateSetting("linkedin_url", validated.linkedin_url || ""),
+        updateSetting("contact_email", validated.contact_email || ""),
       ]);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success("Settings saved");
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: (err: unknown) => {
+      if (err instanceof z.ZodError) {
+        toast.error(err.errors[0]?.message || "Validation error");
+      } else if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    },
   });
 
   if (isLoading) return <p className="text-muted-foreground">Loading settings...</p>;

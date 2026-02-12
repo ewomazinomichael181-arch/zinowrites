@@ -30,8 +30,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
 
-const CATEGORIES = ["Blog", "Whitepaper", "Copy", "Strategy"];
+const CATEGORIES = ["Blog", "Whitepaper", "Copy", "Strategy"] as const;
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
+const projectSchema = z.object({
+  title: z.string().trim().min(1, "Title is required").max(200, "Title must be under 200 characters"),
+  category: z.enum(CATEGORIES, { errorMap: () => ({ message: "Invalid category" }) }),
+  impact: z.string().max(500, "Impact must be under 500 characters").optional().or(z.literal("")),
+  url: z.string().url("Invalid URL format").max(2000, "URL too long").optional().or(z.literal("")),
+});
 
 type ProjectForm = {
   title: string;
@@ -50,7 +61,17 @@ export default function DashboardProjects() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ProjectForm>(emptyForm);
 
+  const validateFile = (file: File) => {
+    if (file.size > MAX_FILE_SIZE) {
+      throw new Error("Image must be under 5MB");
+    }
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      throw new Error("Only JPEG, PNG, WebP, and GIF images are allowed");
+    }
+  };
+
   const uploadImage = async (file: File) => {
+    validateFile(file);
     const ext = file.name.split(".").pop();
     const path = `${crypto.randomUUID()}.${ext}`;
     const { error } = await supabase.storage.from("project-thumbnails").upload(path, file);
@@ -61,30 +82,30 @@ export default function DashboardProjects() {
 
   const saveMutation = useMutation({
     mutationFn: async () => {
+      const validated = projectSchema.parse({
+        title: form.title,
+        category: form.category,
+        impact: form.impact || undefined,
+        url: form.url || undefined,
+      });
       let image_url: string | undefined;
       if (form.imageFile) {
         image_url = await uploadImage(form.imageFile);
       }
 
+      const dbData: { title: string; category: string; impact: string; url: string; image_url?: string } = {
+        title: validated.title,
+        category: validated.category,
+        impact: validated.impact || "",
+        url: validated.url || "",
+      };
+      if (image_url) dbData.image_url = image_url;
+
       if (editingId) {
-        const updateData: { title: string; category: string; impact: string; url: string; image_url?: string } = {
-          title: form.title,
-          category: form.category,
-          impact: form.impact,
-          url: form.url,
-        };
-        if (image_url) updateData.image_url = image_url;
-        const { error } = await supabase.from("projects").update(updateData).eq("id", editingId);
+        const { error } = await supabase.from("projects").update(dbData).eq("id", editingId);
         if (error) throw error;
       } else {
-        const insertData: { title: string; category: string; impact: string; url: string; image_url?: string } = {
-          title: form.title,
-          category: form.category,
-          impact: form.impact,
-          url: form.url,
-        };
-        if (image_url) insertData.image_url = image_url;
-        const { error } = await supabase.from("projects").insert([insertData]);
+        const { error } = await supabase.from("projects").insert([dbData]);
         if (error) throw error;
       }
     },
@@ -93,7 +114,13 @@ export default function DashboardProjects() {
       toast.success(editingId ? "Project updated" : "Project added");
       closeDialog();
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: (err: unknown) => {
+      if (err instanceof z.ZodError) {
+        toast.error(err.errors[0]?.message || "Validation error");
+      } else if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    },
   });
 
   const deleteMutation = useMutation({
