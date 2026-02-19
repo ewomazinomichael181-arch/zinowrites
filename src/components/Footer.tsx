@@ -13,7 +13,7 @@ export default function Footer() {
         <div>
           <p className="font-serif text-lg font-bold">{brandName}</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Strategic Content Writer & Copywriter
+            {settings?.footer_tagline || "Strategic Content Writer & Copywriter"}
           </p>
         </div>
 

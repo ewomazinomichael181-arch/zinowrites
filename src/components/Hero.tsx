@@ -7,17 +7,21 @@ export default function Hero() {
   const linkedinUrl = settings?.linkedin_url || "https://www.linkedin.com/in/ewomazino-ovririe-89a762261";
   const contactEmail = settings?.contact_email || "ewomazinomichael181@gmail.com";
 
+  const subtitle = settings?.hero_subtitle || "Strategic Content Writer & Copywriter";
+  const heading = settings?.hero_heading || "Content that turns readers into loyal customers.";
+  const description = settings?.hero_description || "Helping B2B Tech and Lifestyle brands scale through data-backed storytelling.";
+
   return (
     <section className="relative overflow-hidden">
       <div className="container flex min-h-[80vh] flex-col items-start justify-center py-24 md:py-32">
         <p className="mb-4 text-sm font-medium uppercase tracking-widest text-primary">
-          Strategic Content Writer & Copywriter
+          {subtitle}
         </p>
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-6xl lg:text-7xl">
-          Content that turns readers into loyal customers.
+          {heading}
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-          Helping B2B Tech and Lifestyle brands scale through data-backed storytelling.
+          {description}
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
