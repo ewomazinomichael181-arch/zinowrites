@@ -1,0 +1,31 @@
+
+-- Seed all frontend text content as settings
+INSERT INTO public.settings (key, value) VALUES
+  ('hero_subtitle', 'Strategic Content Writer & Copywriter'),
+  ('hero_heading', 'Content that turns readers into loyal customers.'),
+  ('hero_description', 'Helping B2B Tech and Lifestyle brands scale through data-backed storytelling.'),
+  ('services_heading', 'What I Do'),
+  ('service_1_title', 'Blog Writing'),
+  ('service_1_description', 'SEO-optimized, engaging blog posts that establish authority and drive organic traffic.'),
+  ('service_2_title', 'Whitepapers & Case Studies'),
+  ('service_2_description', 'In-depth, research-backed content that positions your brand as a thought leader.'),
+  ('service_3_title', 'Website Copywriting'),
+  ('service_3_description', 'Conversion-focused copy for landing pages, homepages, and product descriptions.'),
+  ('service_4_title', 'Email Campaigns'),
+  ('service_4_description', 'Nurture sequences and newsletters that build relationships and drive action.'),
+  ('service_5_title', 'Content Strategy'),
+  ('service_5_description', 'Data-driven content roadmaps aligned with your business goals and audience needs.'),
+  ('service_6_title', 'Brand Messaging'),
+  ('service_6_description', 'Cohesive brand voice and messaging frameworks that resonate with your audience.'),
+  ('testimonials_heading', 'What Clients Say'),
+  ('testimonial_1_quote', 'Zino transformed our content strategy. Blog traffic increased by 150% in just three months.'),
+  ('testimonial_1_name', 'Sarah Chen'),
+  ('testimonial_1_role', 'Marketing Director, TechFlow'),
+  ('testimonial_2_quote', 'The whitepapers delivered were exceptional—well-researched, polished, and on-brand. Our sales team uses them daily.'),
+  ('testimonial_2_name', 'James Okoro'),
+  ('testimonial_2_role', 'Head of Content, FinScale'),
+  ('testimonial_3_quote', 'Working with Zino''s Anthology was seamless. The copy captured our voice perfectly and our conversion rate jumped 35%.'),
+  ('testimonial_3_name', 'Maria Lopez'),
+  ('testimonial_3_role', 'Founder, Bloom Lifestyle'),
+  ('footer_tagline', 'Strategic Content Writer & Copywriter')
+ON CONFLICT (key) DO NOTHING;

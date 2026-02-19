@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import DashboardProjects from "./pages/DashboardProjects";
 import DashboardSettings from "./pages/DashboardSettings";
+import DashboardContent from "./pages/DashboardContent";
 import AdminLayout from "./components/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -32,6 +33,7 @@ const App = () => (
               }
             >
               <Route path="/admin/dashboard" element={<DashboardProjects />} />
+              <Route path="/admin/content" element={<DashboardContent />} />
               <Route path="/admin/settings" element={<DashboardSettings />} />
             </Route>
             <Route path="*" element={<NotFound />} />

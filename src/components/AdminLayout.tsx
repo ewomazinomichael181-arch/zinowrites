@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { LayoutDashboard, Settings, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Settings, LogOut, Menu, X, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
 const links = [
   { to: "/admin/dashboard", label: "Projects", icon: LayoutDashboard },
+  { to: "/admin/content", label: "Content", icon: FileText },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
