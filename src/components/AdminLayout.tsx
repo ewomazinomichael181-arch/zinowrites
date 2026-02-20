@@ -49,7 +49,6 @@ export default function AdminLayout() {
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <l.icon className="h-4 w-4" />
               {l.label}
             </Link>
           ))}
