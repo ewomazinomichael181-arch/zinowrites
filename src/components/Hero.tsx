@@ -1,10 +1,9 @@
-import { ArrowRight, Linkedin, Mail } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/hooks/useSettings";
 
 export default function Hero() {
   const { data: settings } = useSettings();
-  const linkedinUrl = settings?.linkedin_url || "https://www.linkedin.com/in/ewomazino-ovririe-89a762261";
   const contactEmail = settings?.contact_email || "ewomazinomichael181@gmail.com";
 
   const subtitle = settings?.hero_subtitle || "Strategic Content Writer & Copywriter";
@@ -26,15 +25,14 @@ export default function Hero() {
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Button asChild size="lg">
-            <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
-              <Linkedin className="mr-2 h-4 w-4" />
-              Connect on LinkedIn
+            <a href="#services">
+              See How I Work <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>
           <Button variant="outline" size="lg" asChild>
-            <a href={`mailto:${contactEmail}`}>
+            <a href={`mailto:${contactEmail}?subject=Quote Request`}>
               <Mail className="mr-2 h-4 w-4" />
-              Send an Email
+              Get a Quote
             </a>
           </Button>
         </div>

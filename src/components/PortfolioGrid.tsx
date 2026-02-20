@@ -47,9 +47,19 @@ export default function PortfolioGrid() {
             ))}
           </div>
         ) : (
-          <p className="mt-10 text-center text-muted-foreground">
-            No projects found. Check back soon!
-          </p>
+          <div className="mt-10 mx-auto max-w-xl text-center">
+            <p className="text-muted-foreground leading-relaxed">
+              Full case studies are being formatted and will be live shortly. In the meantime, I'm
+              happy to share relevant writing samples, strategy documents, or client references
+              directly. Just reach out — I respond within 24 hours.
+            </p>
+            <a
+              href="mailto:ewomazinomichael181@gmail.com?subject=Writing Samples Request"
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+            >
+              Request Writing Samples <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
         )}
       </div>
     </section>
