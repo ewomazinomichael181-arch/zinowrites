@@ -10,7 +10,7 @@ const defaultTestimonials = [
 export default function Testimonials() {
   const { data: settings } = useSettings();
 
-  const heading = settings?.testimonials_heading || "What Clients Say";
+  const heading = settings?.testimonials_heading || "Results clients have seen";
 
   const testimonials = defaultTestimonials.map((def, i) => ({
     quote: settings?.[`testimonial_${i + 1}_quote`] || def.quote,

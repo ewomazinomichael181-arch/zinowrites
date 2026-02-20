@@ -28,6 +28,9 @@ export default function Services() {
       <div className="container">
         <p className="text-sm font-medium uppercase tracking-widest text-primary">Services</p>
         <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">{heading}</h2>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          Every service is built around one goal: content that earns attention and drives action.
+        </p>
 
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
