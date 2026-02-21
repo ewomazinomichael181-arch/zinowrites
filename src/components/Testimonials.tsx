@@ -1,5 +1,7 @@
 import { Quote } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { cn } from "@/lib/utils";
 
 const defaultTestimonials = [
   { quote: "Zino transformed our content strategy. Blog traffic increased by 150% in just three months.", name: "Sarah Chen", role: "Marketing Director, TechFlow" },
@@ -9,6 +11,7 @@ const defaultTestimonials = [
 
 export default function Testimonials() {
   const { data: settings } = useSettings();
+  const { ref, isVisible } = useScrollReveal();
 
   const heading = settings?.testimonials_heading || "Results clients have seen";
 
@@ -20,15 +23,26 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="py-24">
-      <div className="container">
-        <p className="text-sm font-medium uppercase tracking-widest text-primary">Testimonials</p>
-        <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">{heading}</h2>
+      <div ref={ref} className="container">
+        <div
+          className={cn(
+            "transition-all duration-700",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}
+        >
+          <p className="text-sm font-medium uppercase tracking-widest text-primary">Testimonials</p>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">{heading}</h2>
+        </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
             <blockquote
               key={i}
-              className="flex flex-col rounded-lg border bg-card p-6 transition-shadow hover:shadow-md"
+              className={cn(
+                "flex flex-col rounded-lg border bg-card p-6 transition-all duration-500 hover:shadow-md",
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              )}
+              style={{ transitionDelay: isVisible ? `${200 + i * 100}ms` : "0ms" }}
             >
               <Quote className="mb-4 h-6 w-6 text-primary/30" />
               <p className="flex-1 text-sm leading-relaxed text-foreground">"{t.quote}"</p>
