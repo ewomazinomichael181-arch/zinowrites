@@ -4,36 +4,44 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProjects, type Project } from "@/hooks/useProjects";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { cn } from "@/lib/utils";
 
 const categories = ["All", "Blog", "Whitepaper", "Copy", "Strategy"];
 
 export default function PortfolioGrid() {
   const { data: projects, isLoading } = useProjects();
   const [filter, setFilter] = useState("All");
+  const { ref, isVisible } = useScrollReveal();
 
   const filtered = filter === "All" ? projects : projects?.filter((p) => p.category === filter);
 
   return (
     <section id="portfolio" className="py-24">
-      <div className="container">
-        <p className="text-sm font-medium uppercase tracking-widest text-primary">Portfolio</p>
-        <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Selected Work</h2>
+      <div ref={ref} className="container">
+        <div
+          className={cn(
+            "transition-all duration-700",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}
+        >
+          <p className="text-sm font-medium uppercase tracking-widest text-primary">Portfolio</p>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Selected Work</h2>
 
-        {/* Filters */}
-        <div className="mt-8 flex flex-wrap gap-2">
-          {categories.map((c) => (
-            <Button
-              key={c}
-              variant={filter === c ? "default" : "outline"}
-              size="sm"
-              onClick={() => setFilter(c)}
-            >
-              {c}
-            </Button>
-          ))}
+          <div className="mt-8 flex flex-wrap gap-2">
+            {categories.map((c) => (
+              <Button
+                key={c}
+                variant={filter === c ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter(c)}
+              >
+                {c}
+              </Button>
+            ))}
+          </div>
         </div>
 
-        {/* Grid */}
         {isLoading ? (
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
