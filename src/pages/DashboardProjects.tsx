@@ -32,7 +32,7 @@ import { Pencil, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const CATEGORIES = ["Blog", "Whitepaper", "Copy", "Strategy"] as const;
+const CATEGORIES = ["Blog", "Whitepaper", "Copy", "Strategy", "Thought Leadership"] as const;
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
