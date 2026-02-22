@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, X, Mail, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/hooks/useSettings";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -42,6 +43,7 @@ export default function Navbar() {
                 {l.label}
               </a>
             ))}
+            <ThemeToggle />
             <Button asChild size="sm">
               <a href={`mailto:${contactEmail}?subject=Quote Request`}>Get a Quote</a>
             </Button>
