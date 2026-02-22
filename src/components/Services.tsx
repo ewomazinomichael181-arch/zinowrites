@@ -1,9 +1,9 @@
-import { PenLine, FileText, BarChart3, Lightbulb, Target, Megaphone } from "lucide-react";
+import { PenLine, FileText, BarChart3, Lightbulb, Mailbox, Megaphone, LayoutTemplate } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { cn } from "@/lib/utils";
 
-const icons = [PenLine, FileText, Megaphone, Target, BarChart3, Lightbulb];
+const icons = [PenLine, FileText, LayoutTemplate, Mailbox, BarChart3, Megaphone];
 
 const defaultServices = [
   { title: "Blog Writing", description: "SEO-optimized, engaging blog posts that establish authority and drive organic traffic." },
