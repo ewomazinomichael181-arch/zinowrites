@@ -7,7 +7,7 @@ import { useProjects, type Project } from "@/hooks/useProjects";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { cn } from "@/lib/utils";
 
-const categories = ["All", "Blog", "Whitepaper", "Copy", "Strategy", "Thought Leadership"];
+const categories = ["All", "Blog", "Whitepaper", "Copy", "Strategy", "Thought Leadership", "Consumer Advocacy"];
 
 export default function PortfolioGrid() {
   const { data: projects, isLoading } = useProjects();
